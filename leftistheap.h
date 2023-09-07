@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 typedef struct node
 {
 	node* left=NULL;
@@ -14,16 +15,38 @@ typedef struct node
 	}
 }node;
 
+void levelordertraversal(node* head)
+{
+        if(head==NULL)
+                return ;
+        std::vector<node*> parentnodes,childnodes;
+        node* ptr=head;
+        childnodes.push_back(head);
+        while(!childnodes.empty())
+        {
+        parentnodes.clear();
+        parentnodes=childnodes;
+        childnodes.clear();
+        for(node* temp : parentnodes)
+        {
+                if(temp->left!=NULL)
+                        childnodes.push_back(temp->left);
+                if(temp->right!=NULL)
+                        childnodes.push_back(temp->right);
+        }
+        for(node* temp : parentnodes)//printing parents
+        {
+                std::cout<<temp->key<<" ";
+        }
+        std::cout<<std::endl;
+        }
+}
+
 int dist(node* root)
 {
 	if(root==NULL)
 		return -1;
 	return dist(root->right)+1;
-}
-
-node* insert(node* &root,int key)
-{
-	return root=insertnode(root,new node(key));
 }
 
 node* insertnode(node* A,node* B)
@@ -49,4 +72,10 @@ node* insertnode(node* A,node* B)
 		std::swap(A->left,A->right);
 
 	return A;
+}
+
+node* insert(node* &root,int key)
+{
+        root=insertnode(root,new node(key));
+        return root;
 }
