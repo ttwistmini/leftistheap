@@ -49,33 +49,29 @@ int dist(node* root)
 	return dist(root->right)+1;
 }
 
-node* insertnode(node* A,node* B)
+node* merge(node* &A,node* &B)
 {
 	if(A==NULL)
-		A=B;
-
-	else if(A->key < B->key)
-	{
-		if(A->left == NULL)
-			A->left=B;
-		else
-			A->right=insertnode(A->right,B);
-	}
-
-	else if(A->key > B->key)
-	{
+		return B;
+	if(B==NULL)
+		return A;
+	if(A->key > B->key)
 		std::swap(A,B);
-		A=insertnode(A,B);
-	}
-
-	if( dist(A->left) < dist(A->right))
-		std::swap(A->left,A->right);
-
+	A->right=merge(A->right,B);
+	if(dist(A->right) > dist(A->left))
+		swap(A->left,A->right);
 	return A;
 }
 
 node* insert(node* &root,int key)
 {
-        root=insertnode(root,new node(key));
-        return root;
+	root=merge(root,new node(key));
+	return root;
+}
+
+node* deletenode(node*& root)
+{
+	node* del=root;
+	root=merge(root->left,root->right);
+	return root;
 }
