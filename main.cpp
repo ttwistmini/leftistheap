@@ -2,9 +2,6 @@
 #include <vector>
 int main()
 {
-	node* root;
-	for(int i=0;i<10;i++)
-		root=insert(root,i);
-	levelordertraversal(root);
+	node LH;
 	return 0;
 }
